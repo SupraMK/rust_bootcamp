@@ -4,7 +4,10 @@ use std::io::{self, Read, Seek, SeekFrom, Write};
 use std::path::PathBuf;
 
 #[derive(Parser, Debug)]
-#[command(name = "hex_tool", about = "Read and write binary files in hexadecimal")]
+#[command(
+    name = "hex_tool",
+    about = "Read and write binary files in hexadecimal"
+)]
 struct Args {
     #[arg(short = 'f', long = "file", value_name = "FILE")]
     file: PathBuf,
@@ -12,7 +15,12 @@ struct Args {
     #[arg(short = 'r', long = "read", conflicts_with = "write")]
     read: bool,
 
-    #[arg(short = 'w', long = "write", value_name = "HEX", conflicts_with = "read")]
+    #[arg(
+        short = 'w',
+        long = "write",
+        value_name = "HEX",
+        conflicts_with = "read"
+    )]
     write: Option<String>,
 
     #[arg(short = 'o', long = "offset", value_name = "OFF", default_value = "0")]
@@ -66,7 +74,8 @@ fn parse_offset(s: &str) -> Result<u64, String> {
     if let Some(rest) = s.strip_prefix("0x").or_else(|| s.strip_prefix("0X")) {
         u64::from_str_radix(rest, 16).map_err(|_| format!("invalid offset '{s}'"))
     } else {
-        s.parse::<u64>().map_err(|_| format!("invalid offset '{s}'"))
+        s.parse::<u64>()
+            .map_err(|_| format!("invalid offset '{s}'"))
     }
 }
 
